@@ -40,7 +40,7 @@ env:
   FLUTTER_WINDOWS_ARM_VERSION: "3.44.0"
   # for arm64 linux because official Dart SDK does not work
   FLUTTER_ELINUX_VERSION: "3.16.9"
-  TAG_NAME: "share-desk-x-plus-1.4.9.5"
+  TAG_NAME: "share-desk-x-plus-1.4.9.6"
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # vcpkg version: 2025.08.27
   # If we change the `VCPKG COMMIT_ID`, please remember:
@@ -734,6 +734,7 @@ jobs:
                       'pub const RS_PUB_KEY: &str = "1I91ooVYhZqJ1M4MlPmcKidkf6akOzbdZyxyEw6a4oY=";',
               },
               "flutter/macos/Runner/Configs/AppInfo.xcconfig": {
+                  "PRODUCT_NAME = RustDesk": "PRODUCT_NAME = Share Desk X Plus",
                   "PRODUCT_BUNDLE_IDENTIFIER = com.carriez.flutterHbb":
                       "PRODUCT_BUNDLE_IDENTIFIER = app.tich.share-desk-x-plus",
               },
@@ -742,6 +743,10 @@ jobs:
               },
               "flutter/macos/Runner/Info.plist": {
                   "com.carriez.rustdesk": "app.tich.share-desk-x-plus",
+              },
+              "build.py": {
+                  "./build/macos/Build/Products/Release/RustDesk.app":
+                      "./build/macos/Build/Products/Release/Share Desk X Plus.app",
               },
           }
           for filename, replacements in changes.items():
@@ -892,9 +897,6 @@ jobs:
           CREATE_DMG="$(command -v create-dmg)"
           CREATE_DMG="$(readlink -f "$CREATE_DMG")"
           sed -i -e 's/MAXIMUM_UNMOUNTING_ATTEMPTS=3/MAXIMUM_UNMOUNTING_ATTEMPTS=7/' "$CREATE_DMG"
-          mv "./flutter/build/macos/Build/Products/Release/RustDesk.app" "./flutter/build/macos/Build/Products/Release/Share Desk X Plus.app"
-          plutil -replace CFBundleName -string "Share Desk X Plus" "./flutter/build/macos/Build/Products/Release/Share Desk X Plus.app/Contents/Info.plist"
-          plutil -replace CFBundleDisplayName -string "Share Desk X Plus" "./flutter/build/macos/Build/Products/Release/Share Desk X Plus.app/Contents/Info.plist"
           create-dmg --icon "Share Desk X Plus.app" 200 190 --hide-extension "Share Desk X Plus.app" --window-size 800 400 --app-drop-link 600 185 share-desk-x-plus-${{ env.VERSION }}-${{ matrix.job.arch }}.dmg "./flutter/build/macos/Build/Products/Release/Share Desk X Plus.app"
 
       - name: Upload unsigned macOS app

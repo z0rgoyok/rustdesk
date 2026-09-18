@@ -20,7 +20,7 @@
 `.github/workflows/flutter-build.yml` запускается вручную отдельными точными
 редакциями для Windows x64 и macOS arm64. Результат включает portable EXE, MSI
 или DMG, SHA-256 и GitHub build provenance attestations. Единый prerelease
-`share-desk-x-plus-1.4.9.5` содержит Windows x64 и macOS arm64. macOS-сборка
+`share-desk-x-plus-1.4.9.6` содержит Windows x64 и macOS arm64. macOS-сборка
 имеет отдельные app name и bundle identifier `app.tich.share-desk-x-plus`.
 
 Сборка не подписана Windows code-signing certificate. При первом запуске
