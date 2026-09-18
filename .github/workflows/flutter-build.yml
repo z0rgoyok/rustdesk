@@ -40,7 +40,7 @@ env:
   FLUTTER_WINDOWS_ARM_VERSION: "3.44.0"
   # for arm64 linux because official Dart SDK does not work
   FLUTTER_ELINUX_VERSION: "3.16.9"
-  TAG_NAME: "share-desk-x-plus-1.4.9.1"
+  TAG_NAME: "share-desk-x-plus-1.4.9.2"
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # vcpkg version: 2025.08.27
   # If we change the `VCPKG COMMIT_ID`, please remember:
@@ -73,7 +73,7 @@ jobs:
               platform: x64,
             }
     with:
-      upload-artifact: ${{ inputs.upload-artifact }}
+      upload-artifact: true
       target: ${{ matrix.job.target }}
       configuration: Release
       platform: ${{ matrix.job.platform }}
@@ -322,7 +322,7 @@ jobs:
 
       - name: Download RustDeskTempTopMostWindow artifacts
         uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8.0.1
-        if: ${{ inputs.upload-artifact }}
+        if: env.UPLOAD_ARTIFACT == 'true'
         with:
           name: ${{ matrix.job.arch == 'aarch64' && 'topmostwindow-artifacts-ARM64' || 'topmostwindow-artifacts-x64' }}
           path: "./rustdesk"
