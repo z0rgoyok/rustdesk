@@ -40,7 +40,7 @@ env:
   FLUTTER_WINDOWS_ARM_VERSION: "3.44.0"
   # for arm64 linux because official Dart SDK does not work
   FLUTTER_ELINUX_VERSION: "3.16.9"
-  TAG_NAME: "share-desk-x-plus-1.4.9.2"
+  TAG_NAME: "share-desk-x-plus-1.4.9.3"
   VCPKG_BINARY_SOURCES: "clear;x-gha,readwrite"
   # vcpkg version: 2025.08.27
   # If we change the `VCPKG COMMIT_ID`, please remember:
@@ -363,7 +363,8 @@ jobs:
         if: env.UPLOAD_ARTIFACT == 'true'
         run: |
           pushd ./res/msi
-          python preprocess.py --arp -d ../../rustdesk
+          Move-Item ../../rustdesk/rustdesk.exe "../../rustdesk/Share Desk X Plus.exe"
+          python preprocess.py --arp --app-name "Share Desk X Plus" -d ../../rustdesk
           nuget restore msi.sln
           $msiPlatform = if ('${{ matrix.job.arch }}' -eq 'aarch64') { 'ARM64' } else { 'x64' }
           msbuild msi.sln -p:Configuration=Release -p:Platform=$msiPlatform /p:TargetVersion=Windows10
